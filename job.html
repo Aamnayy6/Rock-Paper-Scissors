@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>Rock Paper Scissor</title>
+
+    <style>
+      
+    </style>
+  </head>
+
+  <body>
+<h1>Hello</h1>
+
+</body>
+
+<script>
+  let score = 0;
+  let compscore =0;
+ function computerPlay()
+ {
+   let var1 = Math.floor(Math.random()*3)+1;
+   if(var1==1)
+   return "Rock";
+   else if (var1==2)
+   return "Paper";
+   else
+   return "Scissor";
+ }
+ function playRound(computerselection, userselection)
+ {
+   computerselection = computerselection.toLowerCase();
+   userselection = userselection.toLowerCase();
+   if(computerselection==userselection)
+   return "Draw!";
+   if(computerselection=="rock" &&  userselection == "paper")
+   {
+    score++;
+    return "You win! Paper beats rock!";
+   }
+   if(computerselection=="rock" && userselection == "scissor")
+   {
+     compscore++;
+   return "You lose! rock beats scissor";
+   }
+   if(computerselection == "paper" && userselection=="scissor")
+   {
+     score++;
+     return "You win! Scissor beats Paper";
+   }
+   if(computerselection == "paper" && userselection=="rock")
+   {
+    compscore++;
+     return "You lose! Rock beats Paper";
+   }
+
+   if(computerselection == "scissor" && userselection=="paper")
+   {
+     compscore++;
+   return "You lose! Scissor beats Paper";
+   }
+   if(computerselection == "scissor" && userselection=="rock")
+   {
+    score++;
+        return "You win! Rock beats Scissor";
+
+   }
+ }
+ function game()
+ {
+   for(i=0; i<5; i++)
+   {
+    let userselection = prompt("Choose rock, paper or scissor!");
+    let computerselection = computerPlay();
+    console.log(playRound(computerselection, userselection));
+   }
+   if(score==compscore)
+   console.log("It's a draw!");
+   else if(score>compscore)
+   console.log("You win!");   
+   else
+   console.log("You lose :(");
+   console.log(`Your score : ${score}`);
+ }
+game();
+</script>
+</html>
