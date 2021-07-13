@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Rock Paper Scissor</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <style>
+      
+    </style>
+  </head>
+
+  <body style="background-color: #222831;">
+    <h1>ROCK PAPER SCISSORS</h1>
+    <hr>
+<div class="options">
+  <div>
+    <img src="https://toppng.com/uploads/preview/rock-paper-scissors-circle-11562962494dqcjusyikw.png" alt="Rock">
+    <br>
+   <button id="option">Rock</button> 
+</div>
+  <div>
+    <img src="https://www.vhv.rs/dpng/d/535-5351099_rock-paper-scissors-rock-paper-scissors-icons-png.png" alt="paper">
+    <br>
+    <button id="option">Paper</button>
+  </div>
+  <div>
+    <img src ="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo8BGYiLEpFVFXtUK57STXA4N5gDeeZ3rfKA&usqp=CAU" alt="scissor">
+    <br>
+    <button id="option">Scissor</button>
+  </div>
+</div>
+<div class ="scores"> 
+  <p id="userscore" style="margin-right: 5rem;">You: 0</p>  
+  <i class="fas" id="usericon" style="margin-right: 5rem;"></i>                         
+  <p id="computerscore">Computer: 0</p>
+  <i class="fas" id="compicon" style="margin-left: 5rem;"></i>
+</div>
+<div>
+  <p id="msg"></p>
+</div>
+<div class="end">
+  <p id="gameover"></p>
+</div>
+</body>
+
+<script>
+
+  let score = 0;
+  let compscore =0;
+ function computerPlay()
+ {
+   let var1 = Math.floor(Math.random()*3)+1;
+   if(var1==1)
+   return "rock";
+   else if (var1==2)
+   return "paper";
+   else
+   return "scissors";
+ }
+ function playRound(computerselection, userselection)
+ {
+   computerselection = computerselection.toLowerCase();
+   userselection = userselection.toLowerCase();
+   if(computerselection==userselection)
+   return "Draw!";
+   if(computerselection=="rock" &&  userselection == "paper")
+   {
+    score++;
+    return "You win! Paper beats rock!";
+   }
+   if(computerselection=="rock" && userselection == "scissors")
+   {
+     compscore++;
+   return "You lose! rock beats scissor";
+   }
+   if(computerselection == "paper" && userselection=="scissors")
+   {
+     score++;
+     return "You win! Scissor beats Paper";
+   }
+   if(computerselection == "paper" && userselection=="rock")
+   {
+    compscore++;
+     return "You lose! Paper beats Rock  ";
+   }
+
+   if(computerselection == "scissors" && userselection=="paper")
+   {
+     compscore++;
+   return "You lose! Scissor beats Paper";
+   }
+   if(computerselection == "scissors" && userselection=="rock")
+   {
+    score++;
+        return "You win! Rock beats Scissor";
+
+   }
+ }
+ let flag=0;
+let userselection;
+let computerselection;
+let message;
+ window.addEventListener('click',function(e){
+ const btn = e.target;
+
+ if(e.target.id!=="option" || flag==1)
+ return;
+   btn.classList.add('playing');
+   if(e.target.textContent=="Rock")
+   {
+     userselection="rock";
+   }
+   if(e.target.textContent=="Paper")
+   userselection="paper";
+   if(e.target.textContent=="Scissor")
+   userselection="scissors";
+    computerselection = computerPlay();
+     message=playRound(computerselection, userselection);
+    displayscore();
+    displaypics();
+    score_check();
+ });
+function displaypics()
+{
+  const uimg = document.getElementById('usericon');
+  const cimg = document.getElementById('compicon');
+  uimg.classList=`fas fa-hand-${userselection} active`;
+  cimg.classList=`fas fa-hand-${computerselection} active`;
+}
+
+function displayscore()
+{
+  const updateuser=document.getElementById('userscore');
+  const updatecomp=document.getElementById('computerscore');
+  updateuser.textContent=`You: ${score}`;
+  updatecomp.textContent=`Computer: ${compscore}`;
+  const msg=document.getElementById('msg');
+  msg.textContent=`${message}`;
+}
+ function removetransition(e)
+ {
+   e.target.classList.remove('playing');
+ }
+ const buttons = document.querySelectorAll('button');
+ buttons.forEach(button=>button.addEventListener('transitionend', removetransition));
+
+ function resetgame()
+ {
+   this.remove();
+  const uimg = document.getElementById('usericon');
+  const cimg = document.getElementById('compicon');
+  uimg.classList="fas";
+  cimg.classList="fas";
+  const updateuser=document.getElementById('userscore');
+  const updatecomp=document.getElementById('computerscore');
+  updateuser.textContent=`You: ${score}`;
+  updatecomp.textContent=`Computer: ${compscore}`;
+  const gameover=document.getElementById('gameover');
+  gameover.textContent="";
+  const msg=document.getElementById('msg');
+  msg.textContent="";
+  flag=0;
+
+
+ }
+ function score_check()
+ {
+   
+   if(score==5||compscore==5){
+     const gameover=document.getElementById('gameover');
+   if(score>compscore)
+   gameover.textContent="Game over! You win!";   
+   else
+   gameover.textContent="Game over! You lose :(";
+   score=0;
+   compscore=0;
+   flag=1;
+   var button = document.createElement("button");
+button.innerHTML = "Replay";
+button.setAttribute('style', ' background-color: white; padding: 14px 28px; font-size: 16px; cursor: pointer; display: inline-block; margin-left:38rem');
+document.body.appendChild(button);
+   button.addEventListener('click',resetgame);
+   }
+
+
+ }
+</script>
+</html>
